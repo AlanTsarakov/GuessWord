@@ -8,6 +8,11 @@ namespace GuessWord
 {
     class GameField : DataGridView
     {
+        char[,] field = new char[6, 5];
+        public GameField(Form form)
+        {
+            form.Controls.Add(this);
+        }
 
     }
 }

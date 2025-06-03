@@ -354,40 +354,7 @@ namespace GuessWord
 
 
 
-        private void buttonFullScreen_Click(object sender, EventArgs e)
-        {
-            
-            fullScreen++;
-            if (fullScreen%2!=0) 
-            { 
-                TopMost = true;
-                FormBorderStyle = FormBorderStyle.None;
-                WindowState = FormWindowState.Maximized;
-                int width = dataGridViewWordsField.Width;
-                for (int i = 0; i < dataGridViewWordsField.ColumnCount; i++)
-                {
-                    dataGridViewWordsField.Rows[i].Height = width / dataGridViewWordsField.ColumnCount;
-                    dataGridViewWordsField.RowTemplate.MinimumHeight = width*6;
-                }
-
-            }
-            else
-            {
-                TopMost = false;
-                FormBorderStyle = FormBorderStyle.FixedSingle;
-                WindowState = FormWindowState.Normal;
-                int width = dataGridViewWordsField.Width;
-                for (int i = 0; i < dataGridViewWordsField.ColumnCount; i++)
-                {
-                    DataGridViewColumn column = dataGridViewWordsField.Columns[i];
-                    column.Width = width / dataGridViewWordsField.ColumnCount ;
-                    
-                }
-               
-
-            }
-        }
-
+        
         private void FormMain_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.F11)
@@ -422,26 +389,7 @@ namespace GuessWord
             }
         }
 
-        private void panel2_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-
-        private void toolTip1_Popup(object sender, PopupEventArgs e)
-        {
-
-        }
-
-        private void toolTipSettings_Popup(object sender, PopupEventArgs e)
-        {
-
-        }
-
-        private void labelGameName_Click(object sender, EventArgs e)
-        {
-
-        }
+       
 
         private void buttonI_Click(object sender, EventArgs e)
         {
