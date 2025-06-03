@@ -260,7 +260,6 @@ namespace GuessWord
             this.buttonFullScreen.TabStop = false;
             this.buttonFullScreen.UseVisualStyleBackColor = true;
             this.buttonFullScreen.Visible = false;
-            this.buttonFullScreen.Click += new System.EventHandler(this.buttonFullScreen_Click);
             // 
             // buttonSettings
             // 
@@ -957,13 +956,11 @@ namespace GuessWord
             // 
             this.toolTipFullScreen.Tag = "nkn";
             this.toolTipFullScreen.ToolTipTitle = "Полноэкранный режим";
-            this.toolTipFullScreen.Popup += new System.Windows.Forms.PopupEventHandler(this.toolTip1_Popup);
             // 
             // toolTipSettings
             // 
             this.toolTipSettings.Tag = "nkn";
             this.toolTipSettings.ToolTipTitle = "Настройки";
-            this.toolTipSettings.Popup += new System.Windows.Forms.PopupEventHandler(this.toolTipSettings_Popup);
             // 
             // toolTipInformation
             // 
