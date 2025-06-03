@@ -120,6 +120,10 @@
     <Compile Include="FormUserDict.Designer.cs">
       <DependentUpon>FormUserDict.cs</DependentUpon>
     </Compile>
+    <Compile Include="GameController.cs" />
+    <Compile Include="GameField.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FormLearning.resx">

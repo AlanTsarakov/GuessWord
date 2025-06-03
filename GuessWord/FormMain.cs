@@ -55,7 +55,7 @@ namespace GuessWord
 
 
 
-            imortData();
+            importData();
 
             importProfile();
 
@@ -74,7 +74,7 @@ namespace GuessWord
                 panelKeyboard.Visible = false;
 
         }
-        void imortData()
+        void importData()
         {
             string file1 = @"data\existWords.txt";
             if (File.Exists(file1))
@@ -129,7 +129,6 @@ namespace GuessWord
 
 
            
-            timer.Stop();
 
             
             dataGridViewWordsField.RowCount = 6;
