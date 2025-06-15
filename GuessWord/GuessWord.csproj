@@ -122,6 +122,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SettingsManager.cs" />
+    <Compile Include="UserProfile.cs" />
+    <Compile Include="WordManager.cs" />
     <EmbeddedResource Include="FormLearning.resx">
       <DependentUpon>FormLearning.cs</DependentUpon>
     </EmbeddedResource>
