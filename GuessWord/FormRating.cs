@@ -22,14 +22,14 @@ namespace GuessWord
         {
             string[] quality;
             int j = 0;
-            int l = FormMenu.users.Count();
+            int l = FormMenu.Users.Count();
             dataGridViewTop.RowCount = l;
             dataGridViewTop.ColumnCount = 3;
 
 
 
 
-            foreach (var item in FormMenu.users)
+            foreach (var item in FormMenu.Users)
             {
                 
                 string file = $@"users/{item}";

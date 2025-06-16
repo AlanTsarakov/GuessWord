@@ -15,8 +15,8 @@ namespace GuessWord
     public partial class FormMenu : Form
     {
         public static int easterEgg = 0;
-        public static List<string> users = new List<string>();
-        public static string user;
+        public static List<UserProfile> Users = new List<UserProfile>();
+        public static UserProfile User;
         public static string lang;
         string[] langList = new string[] { };
 
@@ -26,15 +26,18 @@ namespace GuessWord
 
             InitializeComponent();
             FormBorderStyle = FormBorderStyle.FixedSingle;
-            users.Clear();
+            Users.Clear();
             if (File.Exists(@"settings/users.txt"))
             {
                 string[] readText = File.ReadAllLines(@"settings/users.txt", Encoding.UTF8);
                 foreach (var item in readText)
                 {
-                    users.Add(item);
+                    Users.Add(new UserProfile(item));
                 }
-                comboBoxUsers.Items.AddRange(users.ToArray());
+                foreach (var item in Users)
+                {
+                    comboBoxUsers.Items.Add(item.Name);
+                }
 
 
             }
@@ -84,7 +87,7 @@ namespace GuessWord
             }
             else
             {
-                user = comboBoxUsers.SelectedItem.ToString();
+                User = new UserProfile(comboBoxUsers.SelectedItem.ToString());
                 this.Visible = false;
                 FormMain form = new FormMain();
                 form.Location = this.Location;
@@ -126,15 +129,30 @@ namespace GuessWord
 
         private void buttonAddUser_Click(object sender, EventArgs e)
         {
-            if (!users.Contains(textBoxNewUser.Text))
+            bool flag = true;
+            foreach (var user in Users)
+            {
+                if (user.Name == textBoxNewUser.Text)
+                {
+                    flag = false;
+                    break;
+                }
+            }
+            if (flag)
             {
                 if (textBoxNewUser.Text != "")
                 {
                     comboBoxUsers.Items.Clear();
-                    users.Add(textBoxNewUser.Text);
-                    comboBoxUsers.Items.AddRange(users.ToArray());
+                    Users.Add(new UserProfile(textBoxNewUser.Text));
+                    comboBoxUsers.Items.AddRange(Users.ToArray());
                     comboBoxUsers.SelectedItem = textBoxNewUser.Text;
-                    File.WriteAllLines(@"settings/users.txt", users.ToArray(), Encoding.UTF8);
+
+                    StreamWriter streamWriter = new StreamWriter(@"settings/users.txt");
+                    foreach (var item in Users)
+                    {
+                        streamWriter.WriteLine(item.Name);
+                    }
+                    streamWriter.Close();
                     panel1.Visible = false;
                 }
                 else
@@ -189,10 +207,18 @@ namespace GuessWord
                 if (comboBoxUsers.SelectedItem != null)
                 {
                     File.Delete($@"users/{comboBoxUsers.SelectedItem}");
-                    users.Remove(comboBoxUsers.SelectedItem.ToString());
+
+                    for (var i = 0; i < Users.Count; i++)
+                    {
+                        if (Users[i].Name == comboBoxUsers.SelectedItem.ToString())
+                        {
+                            Users.Remove(Users[i]);
+                        }
+                    }
+                
                     comboBoxUsers.Text = "";
                     comboBoxUsers.Items.Clear();
-                    comboBoxUsers.Items.AddRange(users.ToArray());
+                    comboBoxUsers.Items.AddRange(Users.ToArray());
                 }
                 else
                 {

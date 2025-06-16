@@ -15,18 +15,14 @@ namespace GuessWord
     
     public partial class FormMain : System.Windows.Forms.Form
     {
-        static public int countGames;
-        static public int currentStreak = 0;
-        static public int maxStreak = 0;
-        static public int countWins;
-        static public string winsForSteps = "";
+       
         static public List<int> timeList = new List<int>();
         Random rnd = new Random();
         int timerCounter = 0;
         static public string lang = "";
 
         int fullScreen = 0;
-        string path = $@"users/{FormMenu.user}";
+        string path = $@"users/{FormMenu.User}";
         int currentColumn = 0;
         Timer timer = new Timer();
         int currentRow = 0;
@@ -57,7 +53,7 @@ namespace GuessWord
 
             imortData();
 
-            importProfile();
+            FormMenu.User.ImportProfile();
 
             newWord();
         }
@@ -96,32 +92,32 @@ namespace GuessWord
                 words = str.Split();
             }
         }
-        void importProfile()
-        {
-            if (File.Exists(path))
-            {
-                string[] readText = File.ReadAllLines(path, Encoding.UTF8);
-                countGames = Convert.ToInt32(readText[0]);
-                countWins = Convert.ToInt32(readText[1]);
-                currentStreak = Convert.ToInt32(readText[2]);
-                maxStreak = Convert.ToInt32(readText[3]);
-                winsForSteps = readText[4];
-                string[] arrayTime = readText[5].Split('#');
-                timeList.Clear();
-                foreach (var item in arrayTime)
-                {
-                    timeList.Add(Convert.ToInt32(item));
-                }
-            }
-            else
-            {
-                countGames = 0;
-                countWins = 0;
-                currentStreak = 0;
-                maxStreak = 0;
-                winsForSteps = "";
-            }
-        }
+        //void importProfile()
+        //{
+        //    if (File.Exists(path))
+        //    {
+        //        string[] readText = File.ReadAllLines(path, Encoding.UTF8);
+        //        FormMenu.User.CountGames = Convert.ToInt32(readText[0]);
+        //        FormMenu.User.CountWins = Convert.ToInt32(readText[1]);
+        //        FormMenu.User.CurrentStreak = Convert.ToInt32(readText[2]);
+        //        FormMenu.User.MaxStreak = Convert.ToInt32(readText[3]);
+        //        FormMenu.User.WinsForSteps = readText[4];
+        //        string[] arrayTime = readText[5].Split('#');
+        //        timeList.Clear();
+        //        foreach (var item in arrayTime)
+        //        {
+        //            timeList.Add(Convert.ToInt32(item));
+        //        }
+        //    }
+        //    else
+        //    {
+        //        FormMenu.User.CountGames = 0;
+        //        FormMenu.User.CountWins = 0;
+        //        FormMenu.User.CurrentStreak = 0;
+        //        FormMenu.User.MaxStreak = 0;
+        //        FormMenu.User.WinsForSteps = "";
+        //    }
+        //}
         private void FormMain_Load(object sender, EventArgs e)
         {
 
@@ -243,8 +239,7 @@ namespace GuessWord
 
             string stringTime = string.Join("#", timeList.ToArray());
 
-            string[] createText = {countGames.ToString(), countWins.ToString(), currentStreak.ToString(), maxStreak.ToString(), winsForSteps, stringTime };
-            File.WriteAllLines(path, createText, Encoding.UTF8);
+            FormMenu.User.ExportProfile();
         }
 
 
@@ -489,13 +484,13 @@ namespace GuessWord
                     timer.Stop();
                     toColor();
                     MessageBox.Show(langList[1] + translatedWord);
-                    currentStreak++;
-                    if (currentStreak > maxStreak)
-                        maxStreak = currentStreak;
-                    
-                    winsForSteps += currentRow;
-                    countGames++;
-                    countWins++;
+                    FormMenu.User.CurrentStreak++;
+                    if (FormMenu.User.CurrentStreak > FormMenu.User.MaxStreak)
+                        FormMenu.User.MaxStreak = FormMenu.User.CurrentStreak;
+
+                    FormMenu.User.WinsForSteps += currentRow;
+                    FormMenu.User.CountGames++;
+                    FormMenu.User.CountWins++;
                     newGame();
 
                 }
@@ -508,11 +503,11 @@ namespace GuessWord
                             toColor();
                             timer.Stop();
                             MessageBox.Show(langList[2] + word + langList[3] + translatedWord);
-                            if (currentStreak > maxStreak)
-                                maxStreak = currentStreak;
-                            currentStreak = 0;
+                            if (FormMenu.User.CurrentStreak > FormMenu.User.MaxStreak)
+                                FormMenu.User.MaxStreak = FormMenu.User.CurrentStreak;
+                            FormMenu.User.CurrentStreak = 0;
                             newGame();
-                            countGames++;
+                            FormMenu.User.CountGames++;
                         }
                         else
                         {
@@ -620,12 +615,12 @@ namespace GuessWord
                     {
                         toColor();
                         MessageBox.Show(langList[1] + translatedWord);
-                        currentStreak++;
-                        if (currentStreak > maxStreak)
-                            maxStreak = currentStreak;
-                        winsForSteps += currentRow;
-                        countGames++;
-                        countWins++;
+                        FormMenu.User.CurrentStreak++;
+                        if (FormMenu.User.CurrentStreak > FormMenu.User.MaxStreak)
+                            FormMenu.User.MaxStreak = FormMenu.User.CurrentStreak;
+                        FormMenu.User.WinsForSteps += currentRow;
+                        FormMenu.User.CountGames++;
+                        FormMenu.User.CountWins++;
                         newGame();
 
 
@@ -638,10 +633,10 @@ namespace GuessWord
                             {
                                 toColor();
                                 MessageBox.Show(langList[2]+ word + langList[3] + translatedWord);
-                                if (currentStreak > maxStreak)
-                                    maxStreak = currentStreak;
-                                currentStreak = 0;
-                                countGames++;
+                                if (FormMenu.User.CurrentStreak > FormMenu.User.MaxStreak)
+                                    FormMenu.User.MaxStreak = FormMenu.User.CurrentStreak;
+                                FormMenu.User.CurrentStreak = 0;
+                                FormMenu.User.CountGames++;
                                 newGame();
                                 
                             }
@@ -671,7 +666,7 @@ namespace GuessWord
         {
             buttonStatistics.Visible = false;
             buttonStatistics.Visible = true;
-            if (countGames > 0)
+            if (FormMenu.User.CountGames > 0)
             {
                 FormStatisticks form = new FormStatisticks();
                 form.Show();
