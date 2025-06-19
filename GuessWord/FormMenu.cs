@@ -17,7 +17,7 @@ namespace GuessWord
         public static int easterEgg = 0;
         public static List<UserProfile> Users = new List<UserProfile>();
         public static UserProfile User;
-        public static string lang;
+        public static SettingsManager SettingsManager = new SettingsManager();
         string[] langList = new string[] { };
 
 
@@ -48,9 +48,9 @@ namespace GuessWord
 
             using (StreamReader readtext = new StreamReader("settings/language.txt"))
             {
-                lang = readtext.ReadLine();
+                SettingsManager.Language = readtext.ReadLine();
             }
-            if (lang == "russian")
+            if (SettingsManager.Language == "russian")
             {
                 this.Text = "Угадай слово";
                 buttonPlay.Text = "Играть";
@@ -63,7 +63,7 @@ namespace GuessWord
                 buttonPanelClose.Text = "Отмена";
                 buttonAddUser.Text = "Добавить нового пользователя";
             }
-            if (lang == "ossetian")
+            if (SettingsManager.Language == "ossetian")
             {
                 this.Text = "Базон дзырд";
                 buttonPlay.Text = "Хъазын";

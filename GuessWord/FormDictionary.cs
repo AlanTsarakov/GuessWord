@@ -42,14 +42,14 @@ namespace GuessWord
                 dataGridViewDictionary[1, i].Value = translatedWords[i];
             }
 
-            if (FormMenu.lang == "russian")
+            if (FormMenu.SettingsManager.Language == "russian")
             {
                 this.Text = "Словарь";
                 dataGridViewDictionary.Columns[0].HeaderText = "Cлово на осетинском";
                 dataGridViewDictionary.Columns[1].HeaderText = "Слово на русском";
 
             }
-            if (FormMenu.lang == "ossetian")
+            if (FormMenu.SettingsManager.Language == "ossetian")
             {
                 this.Text = "Дзырдуат";
                 dataGridViewDictionary.Columns[0].HeaderText = "Дзырд иронау";

@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace GuessWord
 {
-    internal class SettingsManager
+    public class SettingsManager
     {
+        public string Language {  get; set; }
     }
 }

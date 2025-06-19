@@ -53,7 +53,7 @@ namespace GuessWord
             labelCurrentStreak.Text = FormMenu.User.CurrentStreak.ToString();
 
 
-            if (FormMenu.lang == "russian")
+            if (FormMenu.SettingsManager.Language == "russian")
             {
                 label10.Text = "🕹️ Всего игр";
                 label2.Text = "🏆 Выиграно игр";
@@ -64,7 +64,7 @@ namespace GuessWord
                 label11.Text = "⚡️ Лучшая серия";
                 button1.Text = "ТОП игроков";
             }
-            if (FormMenu.lang == "ossetian")
+            if (FormMenu.SettingsManager.Language == "ossetian")
             {
                 label10.Text = "🕹 Ӕдӕппӕт хъӕзтытӕ";
                 label2.Text = "🏆 Рамбылдта хъӕзтытӕ";

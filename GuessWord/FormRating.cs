@@ -58,7 +58,7 @@ namespace GuessWord
 
 
 
-            if (FormMenu.lang == "russian")
+            if (FormMenu.SettingsManager.Language == "russian")
             {
                 this.Text = "Словарь";
                 dataGridViewTop.Columns[0].HeaderText = "Имя";
@@ -66,7 +66,7 @@ namespace GuessWord
                 dataGridViewTop.Columns[2].HeaderText = "Побед"; 
 
             }
-            if (FormMenu.lang == "ossetian")
+            if (FormMenu.SettingsManager.Language == "ossetian")
             {
                 this.Text = "Дзырдуат";
                 dataGridViewTop.Columns[0].HeaderText = "Ном";

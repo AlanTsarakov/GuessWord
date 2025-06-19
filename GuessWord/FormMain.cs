@@ -17,21 +17,15 @@ namespace GuessWord
     {
        
         static public List<int> timeList = new List<int>();
-        Random rnd = new Random();
         int timerCounter = 0;
-        static public string lang = "";
-
         int fullScreen = 0;
-        string path = $@"users/{FormMenu.User}";
         int currentColumn = 0;
         Timer timer = new Timer();
+
+        WordManager wordManager = new WordManager();
+
         int currentRow = 0;
         int rightAnswer = 0;
-        string word = "";
-        string translatedWord;
-        string[] words;
-        string[] existWords;
-        string[] translatedWords;
         char[,] field = new char[6, 5];
         
         string[] langList = new string[] { };
@@ -51,11 +45,12 @@ namespace GuessWord
 
 
 
-            imortData();
+            
 
             FormMenu.User.ImportProfile();
 
-            newWord();
+            wordManager.ImortData();
+            wordManager.NewWord();
         }
         void loadClavsSettings()
         {
@@ -70,28 +65,7 @@ namespace GuessWord
                 panelKeyboard.Visible = false;
 
         }
-        void imortData()
-        {
-            string file1 = @"data\existWords.txt";
-            if (File.Exists(file1))
-            {
-                string str = File.ReadAllText(file1);
-                existWords = str.Split();
-            }
-
-            string file2 = @"data\translatedWords.txt";
-            if (File.Exists(file2))
-            {
-                string str = File.ReadAllText(file2);
-                translatedWords = str.Split();
-            }
-            string file = @"data\words.txt";
-            if (File.Exists(file))
-            {
-                string str = File.ReadAllText(file);
-                words = str.Split();
-            }
-        }
+        
         //void importProfile()
         //{
         //    if (File.Exists(path))
@@ -150,19 +124,15 @@ namespace GuessWord
 
         public void LoadLanguageSettings()
         {
-            string lang;
-            using (StreamReader readtext = new StreamReader("settings/language.txt"))
-            {
-                lang = readtext.ReadLine();
-            }
-            if (lang == "russian")
+        
+            if (FormMenu.SettingsManager.Language == "russian")
             {
                 this.Text = "Угадай слово";
                 toolTipFullScreen.ToolTipTitle = "Полноэкранный режим";
                 langList = new string[] { "Букв меньше, чем надо", "Вы выиграли! Перевод слова: ", "Вы проиграли! Загаданное слово: ", ". Перевод: ", "Такого слова не существует! Если вы считаете, что это не так, то, пожалуйста, пишите на почту alantsarakov@vk.com", "Вы ещё не сыграли!" };
 
             }
-            if (lang == "ossetian")
+            if (FormMenu.SettingsManager.Language == "ossetian")
             {
                 this.Text = "Базон дзырд";
                 toolTipFullScreen.ToolTipTitle = "Анахъан экран режим";
@@ -205,12 +175,6 @@ namespace GuessWord
         }
 
 
-        void newWord()
-        {
-            int n = rnd.Next(words.Length);
-            word = words[n];
-            translatedWord = translatedWords[n];
-        }
 
         public void createNewTime()
         {
@@ -230,7 +194,7 @@ namespace GuessWord
             field = new char[6, 5];
             dataGridViewWordsField.Rows.Clear();
             dataGridViewWordsField.RowCount = 6;
-            newWord();
+            wordManager.NewWord();
             DrawTable(field);
             timeList.Add(timerCounter);
             timerCounter = 0;
@@ -253,7 +217,7 @@ namespace GuessWord
                 enteredWord += field[currentRow, i];
             }
 
-            if (existWords.Contains(enteredWord))
+            if (wordManager.ExistWords.Contains(enteredWord))
             {
                 return true;
             }
@@ -267,7 +231,7 @@ namespace GuessWord
 
             for (int k = 0; k < 5; k++)
             {
-                if (field[currentRow, k] == word[k])
+                if (field[currentRow, k] == wordManager.Word[k])
                 {
                     rightAnswer++;
                 }
@@ -291,7 +255,7 @@ namespace GuessWord
                 {
                     for (int j = i; j < 5; j++)
                     {
-                        if ( word[i] == word[j])
+                        if (wordManager.Word[i] == wordManager.Word[j])
                         {
                             mas[i]++;
                         }
@@ -300,7 +264,7 @@ namespace GuessWord
                 
                 for (int k = 0; k < 5; k++)
                 {
-                    if (Convert.ToChar(dataGridViewWordsField[k, currentRow].Value) == word[k])
+                    if (Convert.ToChar(dataGridViewWordsField[k, currentRow].Value) == wordManager.Word[k])
                     {
                         mas[k]=mas[k]-1;
                     }
@@ -310,7 +274,7 @@ namespace GuessWord
                 {
                     for (int j = 0; j < 5; j++)
                     {
-                        if ((word[i] == Convert.ToChar(dataGridViewWordsField[j, currentRow].Value) && (mas[i] > 0)))
+                        if ((wordManager.Word[i] == Convert.ToChar(dataGridViewWordsField[j, currentRow].Value) && (mas[i] > 0)))
                         {
                             dataGridViewWordsField[j, currentRow].Style.BackColor = Color.Orange;
                             mas[i] = mas[i] - 1;
@@ -319,7 +283,7 @@ namespace GuessWord
                 }
                 for (int k = 0; k < 5; k++)
                 {
-                    if (Convert.ToChar(dataGridViewWordsField[k, currentRow].Value) == word[k])
+                    if (Convert.ToChar(dataGridViewWordsField[k, currentRow].Value) == wordManager.Word[k])
                     {
                         dataGridViewWordsField[k, currentRow].Style.BackColor = Color.Green;
                     }
@@ -483,7 +447,7 @@ namespace GuessWord
                 {
                     timer.Stop();
                     toColor();
-                    MessageBox.Show(langList[1] + translatedWord);
+                    MessageBox.Show(langList[1] + wordManager.Word);
                     FormMenu.User.CurrentStreak++;
                     if (FormMenu.User.CurrentStreak > FormMenu.User.MaxStreak)
                         FormMenu.User.MaxStreak = FormMenu.User.CurrentStreak;
@@ -502,7 +466,7 @@ namespace GuessWord
                         {
                             toColor();
                             timer.Stop();
-                            MessageBox.Show(langList[2] + word + langList[3] + translatedWord);
+                            MessageBox.Show(langList[2] + wordManager.Word + langList[3] + wordManager.TranslatedWord);
                             if (FormMenu.User.CurrentStreak > FormMenu.User.MaxStreak)
                                 FormMenu.User.MaxStreak = FormMenu.User.CurrentStreak;
                             FormMenu.User.CurrentStreak = 0;
@@ -614,7 +578,7 @@ namespace GuessWord
                     if (countRightAnswers() == 5)
                     {
                         toColor();
-                        MessageBox.Show(langList[1] + translatedWord);
+                        MessageBox.Show(langList[1] + wordManager.TranslatedWord);
                         FormMenu.User.CurrentStreak++;
                         if (FormMenu.User.CurrentStreak > FormMenu.User.MaxStreak)
                             FormMenu.User.MaxStreak = FormMenu.User.CurrentStreak;
@@ -632,7 +596,7 @@ namespace GuessWord
                             if (currentRow == 5)
                             {
                                 toColor();
-                                MessageBox.Show(langList[2]+ word + langList[3] + translatedWord);
+                                MessageBox.Show(langList[2]+ wordManager.Word + langList[3] + wordManager.TranslatedWord);
                                 if (FormMenu.User.CurrentStreak > FormMenu.User.MaxStreak)
                                     FormMenu.User.MaxStreak = FormMenu.User.CurrentStreak;
                                 FormMenu.User.CurrentStreak = 0;

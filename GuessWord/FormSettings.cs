@@ -44,10 +44,10 @@ namespace GuessWord
         {
             using (StreamReader readtext = new StreamReader("settings/language.txt"))
             {
-                FormMenu.lang = readtext.ReadLine();
+                FormMenu.SettingsManager.Language = readtext.ReadLine();
             }
 
-            if (FormMenu.lang == "russian")
+            if (FormMenu.SettingsManager.Language == "russian")
             {
                 this.Text = "Настройки";
                 labelLang.Text = "Выберите язык:";
@@ -60,7 +60,7 @@ namespace GuessWord
                 buttonSave.Text = "Сохранить";
                 buttonClose.Text = "Отмена";
             }
-            if (FormMenu.lang == "ossetian")
+            if (FormMenu.SettingsManager.Language == "ossetian")
             {
                 this.Text = "Нaтройкӕтӕ";
                 labelLang.Text = "Равзар ӕвзаг:";
@@ -76,7 +76,7 @@ namespace GuessWord
         }
         private void buttonRussian_Click(object sender, EventArgs e)
         {
-            FormMenu.lang = "russian";
+            FormMenu.SettingsManager.Language = "russian";
             buttonOset.FlatAppearance.BorderSize = 0;
             buttonRussian.FlatAppearance.BorderSize = 1;
             buttonRussian.FlatAppearance.BorderColor = Color.Black;
@@ -95,7 +95,7 @@ namespace GuessWord
 
         private void buttonOset_Click(object sender, EventArgs e)
         {
-            FormMenu.lang = "ossetian";
+            FormMenu.SettingsManager.Language = "ossetian";
             buttonOset.FlatAppearance.BorderSize = 1;
             buttonRussian.FlatAppearance.BorderSize = 0;
             buttonOset.FlatAppearance.BorderColor = Color.Black;
@@ -121,7 +121,7 @@ namespace GuessWord
         {
             using (StreamWriter writetext = new StreamWriter("settings/language.txt"))
             {
-                writetext.WriteLine(FormMenu.lang);
+                writetext.WriteLine(FormMenu.SettingsManager.Language   );
                 
             }
 
