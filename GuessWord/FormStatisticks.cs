@@ -45,15 +45,15 @@ namespace GuessWord
         private void FormStatisticks_Load(object sender, EventArgs e)
         {
             FormBorderStyle = FormBorderStyle.FixedSingle;
-            labelProfile.Text += " " + FormMenu.user;
-            labelGames.Text = " " + FormMain.countGames;
-            labelWins.Text = " " + FormMain.countWins;
-            labelAverageTime.Text = " " + TimeSpan.FromSeconds(sumList(FormMain.timeList) / FormMain.countGames).ToString(@"h\:mm\:ss");
-            labelBestStreak.Text = FormMain.maxStreak.ToString();
-            labelCurrentStreak.Text = FormMain.currentStreak.ToString();
+            labelProfile.Text += " " + FormMenu.User;
+            labelGames.Text = " " + FormMenu.User.CountGames;
+            labelWins.Text = " " + FormMenu.User.CountWins;
+            //labelAverageTime.Text = " " + TimeSpan.FromSeconds(sumList(FormMain.timeList) / FormMain.countGames).ToString(@"h\:mm\:ss");
+            labelBestStreak.Text = FormMenu.User.MaxStreak.ToString();
+            labelCurrentStreak.Text = FormMenu.User.CurrentStreak.ToString();
 
 
-            if (FormMenu.lang == "russian")
+            if (FormMenu.SettingsManager.Language == "russian")
             {
                 label10.Text = "🕹️ Всего игр";
                 label2.Text = "🏆 Выиграно игр";
@@ -64,7 +64,7 @@ namespace GuessWord
                 label11.Text = "⚡️ Лучшая серия";
                 button1.Text = "ТОП игроков";
             }
-            if (FormMenu.lang == "ossetian")
+            if (FormMenu.SettingsManager.Language == "ossetian")
             {
                 label10.Text = "🕹 Ӕдӕппӕт хъӕзтытӕ";
                 label2.Text = "🏆 Рамбылдта хъӕзтытӕ";
@@ -76,13 +76,13 @@ namespace GuessWord
                 button1.Text = "Хуыздӕр хъазджытӕ";
             }
 
-            if (FormMain.countGames == 0)
+            if (FormMenu.User.CountGames == 0)
             {
                 labelPercentOfWins.Text = " " + 0 + "%";
             }
             else
             {
-                labelPercentOfWins.Text = " " + (int)((double)FormMain.countWins / FormMain.countGames * 100)+"%";
+                labelPercentOfWins.Text = " " + (int)((double)FormMenu.User.CountWins / FormMenu.User.CountGames * 100)+"%";
             }
 
             chart.Series.Add(new Series("ColumnSeries")
@@ -90,10 +90,10 @@ namespace GuessWord
                 ChartType = SeriesChartType.Bar
             });
 
-            string steps = FormMain.winsForSteps;
+            string steps = FormMenu.User.WinsForSteps;
             
             string[] WinsForSteps = { "Побед за 1 ход", "Побед за 2 ход", "Побед за 3 ход", "Побед за 4 ход", "Побед за 5 ход", "Побед за 6 ход"};
-            double[] countWins = { countNumbers(steps, '0') / (double)FormMain.countGames*100, (double)countNumbers(steps, '1') / FormMain.countGames * 100, (double)countNumbers(steps, '2') / FormMain.countGames * 100, (double)countNumbers(steps, '3') / FormMain.countGames * 100, (double)countNumbers(steps, '4') / FormMain.countGames * 100, (double)countNumbers(steps, '5') / FormMain.countGames * 100 };
+            double[] countWins = { countNumbers(steps, '0') / (double)FormMenu.User.CountGames *100, (double)countNumbers(steps, '1') / FormMenu.User.CountGames * 100, (double)countNumbers(steps, '2') / FormMenu.User.CountGames * 100, (double)countNumbers(steps, '3') / FormMenu.User.CountGames * 100, (double)countNumbers(steps, '4') / FormMenu.User.CountGames * 100, (double)countNumbers(steps, '5') / FormMenu.User.CountGames * 100 };
        
 
             chart.Series["ColumnSeries"].Points.DataBindXY(WinsForSteps, countWins);

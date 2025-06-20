@@ -122,6 +122,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SettingsManager.cs" />
+    <Compile Include="UserProfile.cs" />
+    <Compile Include="WordManager.cs" />
     <EmbeddedResource Include="FormLearning.resx">
       <DependentUpon>FormLearning.cs</DependentUpon>
     </EmbeddedResource>
@@ -181,9 +184,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="users\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="images\add_user.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -204,6 +205,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="images\fon.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="users\alan.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="images\fon1.jpg" />
